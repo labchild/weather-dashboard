@@ -28,8 +28,8 @@
                 <div id="search-form">
                     <form class="border-bottom border-info p-1">
                         <label for="search-city">Search for a city</label>
-                        <input name="search-city" id="search-city" placeholder="New York City" class="col-12 form-control my-1">
-                        <button class="col-12 form-control btn btn-info my-1"><span class="fas fa-search"></span></button>
+                        <input name="search-city" id="search-city" type="text" placeholder="New York City" class="col-12 form-control my-1">
+                        <button type="button" id="search-btn" class="col-12 form-control btn btn-info my-1"><span class="fas fa-search"></span></button>
                     </form>
                 </div>
 
@@ -41,8 +41,8 @@
             <!-- weather results -->
             <div id="results" class="col-md-8">
                 <div id="current-container">
-                    <h2 id="city-name">
-                        </h3>
+                    <h2 id="city-name"></h2>
+                    <div id="current-weather"></div>
                 </div>
                 <div id="5-day">
                     <!-- <h3>5-Day Forecast:</h3> -->
