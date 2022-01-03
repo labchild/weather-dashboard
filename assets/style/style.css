@@ -38,3 +38,12 @@ h6 {
     font-weight: 400;
     font-size: 1rem;
 }
+
+.bg-orange {
+    background: #ff7f00;
+}
+
+.card {
+    width: 18%;
+    color: #fff;
+}

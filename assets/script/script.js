@@ -6,7 +6,7 @@ var cityNameEl = $('#city-name');
 var currentWeatherEl = $('#current-weather');
 var forecastEl = $('#5-day-container');
 var recentSearchesEl = $('#search-history');
-var resultsEl = $('#results');
+
 
 // convert city name to lat & lon
 function cityAsLatLon(city) {
@@ -33,8 +33,6 @@ function cityAsLatLon(city) {
         alert("Unable to connect to the server");
     })
 };
-
-// cityAsLatLon('houston');
 
 // get weather data
 function getWeatherData(lat, lon, city) {
@@ -68,7 +66,8 @@ function getWeatherData(lat, lon, city) {
 
 // print weather data
 function printCurrentWeather(currentWeather, city) {
-    
+    cityNameEl.empty();
+    currentWeatherEl.empty();
     // append heading to page
     // create today's date
     var today = new Date();
@@ -82,7 +81,7 @@ function printCurrentWeather(currentWeather, city) {
     let icon = document.createElement('img');
     let iconUrl = 'https://openweathermap.org/img/w/' + currentWeather.weather[0].icon + '.png';
     $(icon).attr('src', iconUrl);
-    
+
     // add city, date and icon to name h2
     cityNameEl.append(city + ' ' + today);
     cityNameEl.append(icon);
@@ -116,7 +115,7 @@ function printCurrentWeather(currentWeather, city) {
     if (uvIndex >= 8) {
         uvColorCode.classList = 'btn bg-danger bg-gradient text-white';
     }
-    
+
     // append weather data to current forecast div
     currentWeatherEl.addClass('border border-dark');
     currentWeatherEl.append(temp);
@@ -126,10 +125,56 @@ function printCurrentWeather(currentWeather, city) {
 }
 
 function printFutureWeather(forecast, city) {
-    // print data to five day forecast div
+    // clear section of old data
+    forecastEl.empty();
+
+    // print section name
     forecastEl.html('<h3>5-Day Forecast:</h3>');
+    let forecastTitle = document.createElement('h3');
+    forecastTitle.textContent = '5-Day Forecast:'
+
     console.log(forecast);
     // loop through 5 day to create cards
+    for (var i = 0; i < 5; i++) {
+        let dayCard = document.createElement('div');
+        let cardHead = document.createElement('h4');
+        let cardImg = document.createElement('img');
+        let cardBody = document.createElement('div');
+
+        // make div a card
+        dayCard.classList = 'card bg-dark';
+
+        // add date to card
+        let date = new Date(forecast[i].dt * 1000);
+        cardHead.textContent = date.toLocaleDateString('en-US');
+        cardHead.classList = 'card-header text-white';
+        dayCard.append(cardHead);
+
+        // add icon to card
+        let iconUrl = 'https://openweathermap.org/img/w/' + forecast[i].weather[0].icon + '.png';
+        $(cardImg).attr('src', iconUrl);
+        cardImg.classList = 'card-img-top';
+        dayCard.append(cardImg);
+
+        // add data to card
+        let temp = document.createElement('p');
+        temp.textContent = 'Temp: ' + forecast[i].temp.day + '°F';
+        cardBody.append(temp);
+        
+        let wind = document.createElement('p');
+        wind.textContent = 'Wind: ' + forecast[i].wind_speed + ' MPH';
+        cardBody.append(wind);
+
+        let humidity = document.createElement('p');
+        humidity.textContent = 'Humidity: ' + forecast[i].humidity + '%'
+        cardBody.append(humidity);
+        
+        cardBody.classList = 'card-body';
+        dayCard.append(cardBody);
+
+        // print card to page
+        forecastEl.append(dayCard);
+    }
 }
 // get weather details from data obj
 // key is bold, val is normal
