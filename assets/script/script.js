@@ -200,7 +200,7 @@ function saveSearchTerm(lat, lon, city) {
     $(recentBtnEl).addClass('btn btn-outline-info btn-block m-1 recent-btn').text(city);
     $(recentBtnEl).attr('data-lat', cityObj.lat);
     $(recentBtnEl).attr('data-lon', cityObj.lon);
-    recentSearchesEl.append(recentBtnEl);
+    recentSearchesEl.prepend(recentBtnEl);
 
     // save city
     handleLocalStorage();
@@ -234,7 +234,7 @@ function printStorage() {
                 $(recentBtnEl).addClass('btn btn-outline-info btn-block m-1 recent-btn').text(recentSearchArr[i].name);
                 $(recentBtnEl).attr('data-lat', recentSearchArr[i].lat);
                 $(recentBtnEl).attr('data-lon', recentSearchArr[i].lon);
-                recentSearchesEl.append(recentBtnEl);
+                recentSearchesEl.prepend(recentBtnEl);
             })
         }
     }
