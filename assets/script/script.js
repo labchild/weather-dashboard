@@ -11,7 +11,7 @@ var recentSearchArr;
 
 // convert city name to lat & lon
 function cityAsLatLon(city) {
-    var apiUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + apiKey;
+    var apiUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + apiKey;
 
     // call api for get lat & lon of city
     fetch(apiUrl).then(res => {
