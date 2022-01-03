@@ -1,6 +1,6 @@
 # Weather Dashboard
-![weather-dashboard-preview](./assets/images/weather-dashboard-preview.png)
 A web app to search for weather forecasts by city.
+![weather-dashboard-preview](./assets/images/weather-dashboard-preview.png)
 
 ## Table of Contents
 * [About the Project](#abouttheproject)
