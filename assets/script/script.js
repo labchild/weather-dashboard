@@ -257,6 +257,7 @@ function handleSearchClick(e) {
         } else {
             alert("Something went wrong! Try searching for a city that actually exists.")
         }
+        cityInput.value = '';
     }
 }
 

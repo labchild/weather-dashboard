@@ -16,7 +16,7 @@ A web app to search for weather conditions by city. Search for weather forecasts
 
 ### Key Features
 * The user can search for a city's weather conditions in a simple search bar.
-* The results include visual representation of weather conditions as emoji-style icons and color-coded UV index danger levels.
+* The results include visual representation of weather conditions as icons and color-coded UV index danger levels.
 * Utilizes local storage, so the user can easily view their search history.
 * When a city is selected from the search history, current and future weather results appear.
 
