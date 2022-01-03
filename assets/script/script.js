@@ -72,15 +72,12 @@ function getWeatherData(lat, lon, city) {
 function printCurrentWeather(currentWeather, city) {
     cityNameEl.empty();
     currentWeatherEl.empty();
+    
     // append heading to page
     // create today's date
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
-
-    today = mm + '/' + dd + '/' + yyyy;
-
+    let now = new Date(currentWeather.dt * 1000)
+    let today = now.toLocaleDateString('en-US');
+    
     // create img for weather icon
     let icon = document.createElement('img');
     let iconUrl = 'https://openweathermap.org/img/w/' + currentWeather.weather[0].icon + '.png';
@@ -137,7 +134,7 @@ function printFutureWeather(forecast) {
     $('#forecast-title').textContent = '5-Day Forecast:'
 
     // loop through 5 day to create cards
-    for (var i = 0; i < 5; i++) {
+    for (var i = 1; i < 6; i++) {
         let dayCard = document.createElement('div');
         let cardHead = document.createElement('h4');
         let cardImg = document.createElement('img');
