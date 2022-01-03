@@ -78,13 +78,16 @@ function printCurrentWeather(currentWeather, city) {
 
     today = mm + '/' + dd + '/' + yyyy;
 
-    // $(h2 for city-name).textContent( city and date from data obj )
-    cityNameEl.prepend(city + ' ' + today);
-
-    // add weather icon to span
+    // create img for weather icon
+    let icon = document.createElement('img');
     let iconUrl = 'https://openweathermap.org/img/w/' + currentWeather.weather[0].icon + '.png';
-    $('#weather-icon').attr('src', iconUrl);
+    $(icon).attr('src', iconUrl);
+    
+    // add city, date and icon to name h2
+    cityNameEl.append(city + ' ' + today);
+    cityNameEl.append(icon);
 
+    // create p to hold weather data
     let temp = document.createElement('p');
     let wind = document.createElement('p');
     let humidity = document.createElement('p');
@@ -99,7 +102,7 @@ function printCurrentWeather(currentWeather, city) {
     uv.textContent = 'UV Index: ';
     uv.append(uvColorCode);
 
-    // uv index with background color
+    // add background image to uv index
     let uvIndex = currentWeather.uvi;
     if (uvIndex < 3) {
         uvColorCode.classList = 'btn bg-success bg-gradient text-white';
@@ -113,7 +116,8 @@ function printCurrentWeather(currentWeather, city) {
     if (uvIndex >= 8) {
         uvColorCode.classList = 'btn bg-danger bg-gradient text-white';
     }
-    // print weather data to current forecast div
+    
+    // append weather data to current forecast div
     currentWeatherEl.addClass('border border-dark');
     currentWeatherEl.append(temp);
     currentWeatherEl.append(wind);
