@@ -1,5 +1,5 @@
 # Weather Dashboard
-<!-- image goes here  -->
+![weather-dashboard-preview](./assets/images/weather-dashboard-preview.png)
 A web app to search for weather forecasts by city.
 
 ## Table of Contents
