@@ -5,7 +5,8 @@ var searchFormEl = $('#search-form');
 var cityNameEl = $('#city-name');
 var currentWeatherEl = $('#current-weather');
 var forecastEl = $('#5-day-container');
-var recentSearchesEl = $('#search-history');
+var recentSearchesEl = $('#recent-btn-grp');
+var recentSearchArr;
 
 
 // convert city name to lat & lon
@@ -18,19 +19,19 @@ function cityAsLatLon(city) {
             res.json()
                 // pass lat & lon from obj to get weather func
                 .then(function (data) {
-                    console.log(data);
-                    console.log(data[0].lon, data[0].lat);
-                    console.log();
+
                     let lat = data[0].lat;
                     let lon = data[0].lon;
-                    let cityName = data[0].local_names.en;
+                    let cityName = data[0].name;
                     getWeatherData(lat, lon, cityName);
+                    saveSearchTerm(lat, lon, cityName);
                 })
         } else {
             alert("We didn't recognize that city. Please try again.");
         }
     }).catch(error => {
-        alert("Unable to connect to the server");
+        console.log(error);
+        alert('Something went wrong!');
     })
 };
 
@@ -46,13 +47,13 @@ function getWeatherData(lat, lon, city) {
             // if response, then pass relevant data to print function save city name to storage
             if (res.ok) {
                 res.json().then(data => {
-                    console.log(data);
-                    console.log(city);
                     let currentWeather = data.current;
                     let fiveDayWeather = data.daily;
-                    console.log(currentWeather, fiveDayWeather);
+
+                    // print weather
                     printCurrentWeather(currentWeather, city);
-                    printFutureWeather(fiveDayWeather, city);
+                    printFutureWeather(fiveDayWeather);
+
                 })
             }
             // else throw error message
@@ -61,7 +62,10 @@ function getWeatherData(lat, lon, city) {
 
             }
             // catch error
-        }).catch(error => console.log(error));
+        }).catch(error => {
+            console.log(error);
+            alert('Something went wrong!');
+        });
 }
 
 // print weather data
@@ -124,7 +128,7 @@ function printCurrentWeather(currentWeather, city) {
     currentWeatherEl.append(uv);
 }
 
-function printFutureWeather(forecast, city) {
+function printFutureWeather(forecast) {
     // clear section of old data
     forecastEl.empty();
     $('#forecast-title').empty();
@@ -158,7 +162,7 @@ function printFutureWeather(forecast, city) {
         let temp = document.createElement('p');
         temp.textContent = 'Temp: ' + forecast[i].temp.day + '°F';
         cardBody.append(temp);
-        
+
         let wind = document.createElement('p');
         wind.textContent = 'Wind: ' + forecast[i].wind_speed + ' MPH';
         cardBody.append(wind);
@@ -166,7 +170,7 @@ function printFutureWeather(forecast, city) {
         let humidity = document.createElement('p');
         humidity.textContent = 'Humidity: ' + forecast[i].humidity + '%'
         cardBody.append(humidity);
-        
+
         cardBody.classList = 'card-body';
         dayCard.append(cardBody);
 
@@ -174,37 +178,117 @@ function printFutureWeather(forecast, city) {
         forecastEl.append(dayCard);
     }
 }
-// get weather details from data obj
-// key is bold, val is normal
-// append to page in current-weather
 
-// append to page in 5-day-container
-// print button with city name to search-history and save in stored arr
+// function to send city name to city arr
+function saveSearchTerm(lat, lon, city) {
+    let cityObj = {
+        "name": city,
+        "lat": lat,
+        "lon": lon
+    }
 
-// start the search (run in event listener)
-function handleSearchClick(e) {
-    if (e.target.matches('#search-btn')) {
-        e.preventDefault();
-        console.log('you clicked!');
-        // get the user search term (city)
-        let city = cityInput.val().trim();
-        // pass to city coords func
-        cityAsLatLon(city);
+    // if searched history exists, push to history
+    if (recentSearchArr) {
+        recentSearchArr.push(cityObj);
+    } else {
+        // else, make arr contain new search term
+        recentSearchArr = [cityObj];
+    }
+
+    // create button and add to page
+    let recentBtnEl = document.createElement('button');
+    $(recentBtnEl).addClass('btn btn-outline-info btn-block m-1 recent-btn').text(city);
+    $(recentBtnEl).attr('data-lat', cityObj.lat);
+    $(recentBtnEl).attr('data-lon', cityObj.lon);
+    recentSearchesEl.append(recentBtnEl);
+
+    // save city
+    handleLocalStorage();
+}
+
+// function to save array to storage
+function handleLocalStorage() {
+    if (!localStorage.getItem('recentCities')) {
+        // if no saved search terms, then save the search terms
+        localStorage.setItem('recentCities', JSON.stringify(recentSearchArr));
+    } else {
+        // else remove that item from storage and replace it with updated arr
+        localStorage.removeItem('recentCities');
+        localStorage.setItem('recentCities', JSON.stringify(recentSearchArr));
     }
 }
 
+// function to add stored search terms to page as buttons
+function printStorage() {
+    if (localStorage.getItem('recentCities')) {
+        let storedCities = JSON.parse(localStorage.getItem('recentCities'));
+
+        // recentSearchArr = [localStorage.getItem('recentCities')];
+        if (storedCities) {
+
+            recentSearchArr = storedCities;
+
+            // iterate through saved arr to make btns
+            $(recentSearchArr).each(i => {
+                let recentBtnEl = document.createElement('button');
+                $(recentBtnEl).addClass('btn btn-outline-info btn-block m-1 recent-btn').text(recentSearchArr[i].name);
+                $(recentBtnEl).attr('data-lat', recentSearchArr[i].lat);
+                $(recentBtnEl).attr('data-lon', recentSearchArr[i].lon);
+                recentSearchesEl.append(recentBtnEl);
+            })
+        }
+    }
+
+}
 
 
-// store city names
-// get city names arr from storage on load to print
-// if city names arr is empty, now it's new search term in arr
-// else .push new term
-// save to storage
+// start the search (run in event listener)
+function handleSearchClick(e) {
+    // if button is search, run search using input as term
+    if (e.target.matches('#search-btn')) {
+        e.preventDefault();
+
+        // get the user search term (city)
+        let city = cityInput.val().trim();
+
+        if (city) {
+            // pass to city coords func
+            cityAsLatLon(city);
+        } else {
+            alert("Something went wrong! Try searching for a city that actually exists.")
+        }
+    }
+}
+
+// search from a recent search term function
+function handleRecentSearch(e) {
+    let btnClicked = e.target;
+
+    // if button clicked is a recent search btn, run a search
+    if (btnClicked.matches('.recent-btn')) {
+
+        let searchTerm = $(btnClicked).text();
+        let searchLat = $(btnClicked).attr('data-lat');
+        let searchLon = $(btnClicked).attr('data-lon');
+
+        //run search on recent search term
+        getWeatherData(searchLat, searchLon, searchTerm);
+
+        //remove the clicked btn so there aren't a bunch of duplicate btns
+        recentSearchesEl.remove(btnClicked);
+    }
+}
 
 /* LISTENERS */
 // on load (print recent)
-// if local storage, push to task arr
+$(document).ready(printStorage);
 
 // listen for button click/new search
 $(searchFormEl).on('click', '#search-btn', handleSearchClick);
 // listen for recent search button click
+$(recentSearchesEl).on('click', handleRecentSearch);
+// listen for uncaught error in promise
+$(window).on('unhandledrejection', function (error) {
+    console.log(error);
+    alert('Something went wrong! Try again.');
+})
