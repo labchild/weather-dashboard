@@ -1,0 +1,51 @@
+:root {
+    --info-text: #717171;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Helvetica, Tahoma, sans-serif;
+}
+
+header {
+    display: block;
+    background-image: linear-gradient(45deg, #02c1fe, #8d39fd);
+    color: #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+#search-form label {
+    color: var(--info-text);
+}
+
+#search-history h3 {
+    color: var(--info-text);
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.bg-orange {
+    background: #ff7f00;
+}
+
+.card {
+    width: 18%;
+    color: #fff;
+}
+
+.recent-btn:hover {
+    color: #fff;
+}
