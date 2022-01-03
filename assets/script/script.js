@@ -127,13 +127,11 @@ function printCurrentWeather(currentWeather, city) {
 function printFutureWeather(forecast, city) {
     // clear section of old data
     forecastEl.empty();
+    $('#forecast-title').empty();
 
     // print section name
-    forecastEl.html('<h3>5-Day Forecast:</h3>');
-    let forecastTitle = document.createElement('h3');
-    forecastTitle.textContent = '5-Day Forecast:'
+    $('#forecast-title').textContent = '5-Day Forecast:'
 
-    console.log(forecast);
     // loop through 5 day to create cards
     for (var i = 0; i < 5; i++) {
         let dayCard = document.createElement('div');
