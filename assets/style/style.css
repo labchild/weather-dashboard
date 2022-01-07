@@ -49,6 +49,11 @@ h6 {
 
 .card img {
     width: 50%;
+    margin: auto;
+}
+
+.card-body {
+    text-align: left;
 }
 
 .recent-btn:hover {
