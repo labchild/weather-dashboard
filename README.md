@@ -33,7 +33,7 @@ You can view my code and download the repo [here](https://github.com/labchild/we
 ## Contact
 Written and deployed by Lelah Bates Childs.
 
-You can find me on GitHub [@labchild](https://github.com/labchild) or [email me](labchilds@gmail.com).
+You can find me on GitHub [@labchild](https://github.com/labchild) or [email me](mailto:labchilds@gmail.com).
 
 ### Want to Help?
 Do you see something I missed or a more succint and effective way this code can be written? Great! Please reach out and let me know how I can improve. Thanks in advance for your tips, tricks, and pointers!
