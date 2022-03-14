@@ -3,9 +3,9 @@ A web app to search for weather forecasts by city.
 ![weather-dashboard-preview](./assets/images/weather-dashboard-preview.png)
 
 ## Table of Contents
-* [About the Project](#abouttheproject)
-    * [Key Features](#keyfeatures)
-    * [Built With](#builtwith)
+* [About the Project](#about-the-project)
+    * [Key Features](#key-features)
+    * [Built With](#built-with)
 * [Links](#links)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
